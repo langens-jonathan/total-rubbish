@@ -1,0 +1,16 @@
+<div style="width:100%; background-color:#000;color:#DDF;">
+<table>
+<tr><td>Current Text</td><td>{{currentWord}}</td></tr>
+<tr><td>Current Suggestions</td><td><ul>
+{{#each currentSuggestions as |suggestion|}}
+  <li>{{suggestion}} <button {{action "setSuggestion" suggestion}}>use</button></li>
+{{/each}}
+</ul></td></tr>
+<tr><td>Current Text</td><td>
+{{#each currentInMemRepresentation as |word|}}
+  <div style="margin:2px;background-color:#FFD;color:#000;display:inline-block;">{{word.part}}</div>
+{{/each}}
+</td></tr></table>
+</div>
+
+{{simditor-editor value=model update=(action (mut model.content)) editor=(mut editor) onValuechanged=(action "valuechanged") }}

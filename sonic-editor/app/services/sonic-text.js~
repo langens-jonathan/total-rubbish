@@ -1,0 +1,45 @@
+import Ember from 'ember';
+
+export default Ember.Service.extend({
+    text: Ember.A(),
+
+    addCharacter: function(character) {
+	var text = this.get('text');
+	if(text.length === 0)
+	{
+	    text.push({
+		original_part: character,
+		part: character
+	    });
+	    return;
+	}
+	    
+	var lastTextPart = Ember.get(text[text.length - 1], "original_part");
+	var lastTextPartIsEmpty = lastTextPart.trim() === "";
+	if((character === " " && lastTextPartIsEmpty) ||
+	   (character !== " " && !lastTextPartIsEmpty))
+	{
+	    var npart = lastTextPart + character;
+	    text[text.length - 1] = {
+		original_part: npart,
+		part: npart
+	    };
+	}
+	else
+	{
+	    text.push({
+		original_part: character,
+		part: character
+	    });
+	}
+    },
+	
+    toFullText: function()
+    {
+	var fullText = "";
+	this.get('text').forEach(function(item, index) {
+	    fullText += "[" + Ember.get(item, 'part') + "]";
+	});
+	return fullText;
+    }
+});
